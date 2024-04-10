@@ -14,14 +14,20 @@ export default function WeatherApp() {
         weather: "scattered clouds"
     });
 
+    //weather result 
+    let updateInfo = (newInfo) => {
+        // adding new result object in state function so page will rerender
+        setWeatherInfo(newInfo);
+    }
+
     return (
         <div style={{ textAlign: "center" }}>
             <h2>Weather App</h2>
-            <SearchBox ></SearchBox>
+            <SearchBox updateInfo={updateInfo}></SearchBox>
             {/* passing info as prop */}
             <InfoBox info={weatherInfo}></InfoBox>
             <hr style={{ marginTop: "1rem" }}></hr>
-            <a href='https://github.com/chiragyadav916' target='blank'><i class="fa-brands fa-github"></i></a>
+            <a href='https://github.com/chiragyadav916' target='blank'><i className="fa-brands fa-github"></i></a>
         </div>
     );
 }

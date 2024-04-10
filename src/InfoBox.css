@@ -1,8 +1,13 @@
-.InfoBox{
+.InfoBox {
     text-align: center;
 }
 
-.cardContainer{
+.cardContainer {
     display: flex;
     justify-content: center;
 }
+
+/* .imageIcon{
+    height: 100%;
+    object-fit: cover;
+} */

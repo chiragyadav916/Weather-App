@@ -1,55 +1,60 @@
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import { useState } from 'react';
-import React from 'react';
 import "./SearchBox.css";
 
-export default function SearchBox() {
+export default function SearchBox({ updateInfo }) {
     let [city, setCity] = useState("");
+    let [error, setError] = useState(false);
     const API_URL = process.env.REACT_APP_API_URL;
     const API_KEY = process.env.REACT_APP_API_KEY;
 
-    // async function getWeatherInfo() {
     let getWeatherInfo = async () => {
-        let response = await fetch(`${API_URL}?q=${city}&appid=${API_KEY}&units=metric`);
-        let jsonResponse = await response.json();
-        // console.log(jsonResponse);
+        try {
+            let response = await fetch(`${API_URL}?q=${city}&appid=${API_KEY}&units=metric`);
+            let jsonResponse = await response.json();
 
-        //object to store weather info
-        let result = {
-            //city:city
-            city,
-            temp: jsonResponse.main.temp,
-            tempMin: jsonResponse.main.temp_min,
-            tempMax: jsonResponse.main.temp_max,
-            humidity: jsonResponse.main.humidity,
-            feelsLike: jsonResponse.main.feels_like,
-            weather: jsonResponse.weather[0].description,
-        };
-        console.log(result);
+            let result = {
+                city,
+                temp: jsonResponse.main.temp,
+                tempMin: jsonResponse.main.temp_min,
+                tempMax: jsonResponse.main.temp_max,
+                humidity: jsonResponse.main.humidity,
+                feelsLike: jsonResponse.main.feels_like,
+                weather: jsonResponse.weather[0].description,
+            };
+
+            return result;
+        } catch (err) {
+            throw err;
+        }
     };
 
     let handleChange = (event) => {
         setCity(event.target.value);
     }
 
-    let handleSubmit = (event) => {
-        event.preventDefault();
-        setCity("");
-        getWeatherInfo();
+    let handleSubmit = async (event) => {
+        try {
+            event.preventDefault();
+            setCity("");
+            setError(false); // Reset error state to false
+            let newInfo = await getWeatherInfo();
+            updateInfo(newInfo);
+        } catch (err) {
+            setError(true);
+        }
     }
 
     return (
         <div className='SearchBox'>
-            {/* <h1>Search for Weather!</h1> */}
-            {/* for every form we need to associate state variable */}
             <form onSubmit={handleSubmit}>
                 <TextField id="city" label="City Name" variant="outlined"
-                    // after adding onChange, we able to add text in TextField
                     required value={city} onChange={handleChange} />
                 <br></br>
                 <br></br>
                 <Button variant="contained" type='submit'>Search</Button>
+                {error && <p style={{ color: "red" }}>No Such Place Exists in our API!!</p>}
             </form>
         </div>
     )
