@@ -25,29 +25,33 @@ export default function InfoBox({ info }) {
     return (
         <div className="InfoBox">
             <div className='cardContainer'>
-                <Card sx={{ maxWidth: 300 }}>
-                    <div className='image'>
+                <Card sx={{ display: 'flex', maxWidth: 700 }}>
+                    {/* Image on the left */}
+                    <span>
                         <CardMedia
-                            sx={{ height: 400 }}
-                            image={info.humidity > 40 ? RAIN_URL : info.temp > 19 ? HOT_URL : COLD_URL }
-                            title="image" className='imageIcon'
-                        />
-                    </div>
-                    <CardContent>
-                        <Typography gutterBottom variant="h5" component="div">
-                            <b>{info.city} {info.humidity > 80 ? <ThunderstormIcon /> : info.temp > 30 ? <WbSunnyIcon /> : <AcUnitIcon />}</b>
-                        </Typography>
-                        <Typography variant="body2" color="text.secondary" component={"span"}>
-                            <p>Temperature- {info.temp}&deg;C</p>
-                            <p>Humidity- {info.humidity}</p>
-                            <p>Minimum Temperature- {info.tempMin}&deg;C</p>
-                            <p>Maximum Temperature- {info.tempMax}&deg;C</p>
-                            <p>The Weather can be described as <i>{info.weather}</i> and feels
-                                like {info.feelsLike}&deg;C</p>
-                        </Typography>
-                    </CardContent>
+                            sx={{ width: 300, height: 400 }}
+                            image={info.humidity > 60 ? RAIN_URL : info.temp > 16 ? HOT_URL : COLD_URL}
+                            title="image" />
+                    </span>
+                    {/* Content on the right */}
+                    <span style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+                        <CardContent>
+                            <Typography gutterBottom variant="h5" component="div">
+                                <b>{info.city} {info.humidity > 60 ? <ThunderstormIcon /> : info.temp > 16 ? <WbSunnyIcon /> : <AcUnitIcon />}</b>
+                            </Typography>
+                            <Typography variant="body2" color="text.secondary" component={"span"}>
+                                <p>Temperature- {info.temp}&deg;C</p>
+                                <p>Humidity- {info.humidity}</p>
+                                <p>Minimum Temperature- {info.tempMin}&deg;C</p>
+                                <p>Maximum Temperature- {info.tempMax}&deg;C</p>
+                                <p>The Weather can be described as <i>{info.weather}</i> and feels
+                                    like {info.feelsLike}&deg;C</p>
+                            </Typography>
+                        </CardContent>
+                    </span>
                 </Card>
             </div>
         </div>
+
     );
 }
